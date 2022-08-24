@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+#SBATCH -J tf_training
+#SBATCH -p cfdg.p
+#SBATCH --mem-per-cpu 7000       # 2.3 GB Memory per Task 
+#SBATCH -t 3-00:00           # time (D-HH:MM) 
+#SBATCH -o logs/final/log_tensorflow.%N.%j.out  # STDOUT 
+#SBATCH -e logs/final/log_tensorflow.%N.%j.err  # STDERR 
+#SBATCH --ntasks 1                # Number of Tasks
+#SBATCH --cpus-per-task 24        # CPU's per Task
+#SBATCH --exclusive
+#SBATCH --gres=gpu:1
+
+module load hpc-env/8.3
+module load TensorFlow/1.13.1-fosscuda-2019b-Python-3.7.4
+
+
+python3 /gss/work/dahl0071/thesis/phire2/main.py --isCNN --train_dir "/nfs/data/dahl0071/thesis/data/train/CE/final/*/" --valid_dir "/nfs/data/dahl0071/thesis/data/valid/CE/final/*/" --ne 400 --bs 80 --HR_static_path "/nfs/data/dahl0071/thesis/data/static/CE/HR.npy" --use_mod_gen --test_dir "/nfs/data/dahl0071/thesis/data/test/CE/final/*/"
+#--LR_static_path /nfs/data/dahl0071/thesis/data/static/CE/LR.npy --HR_static_path /nfs/data/dahl0071/thesis/data/static/CE/HR.npy  
+
+#--test_dir "/nfs/data/dahl0071/thesis/data/test/CE/final/*/"

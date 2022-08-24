@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+#SBATCH -J SR_out_post_proc
+#SBATCH -p eddy.p #cfdg.p,cfdh.p,cfdl.p     # Which queue (?)
+#SBATCH -t 3-00:00           # time (D-HH:MM)
+#SBATCH -o logs/out/log_post_proc.%N.%j.out  # STDOUT
+#SBATCH -e logs/out/log_post_proc.%N.%j.err  # STDERR
+#SBATCH --ntasks 1           # Number of Tasks=Nodes*48
+#SBATCH --cpus-per-task 6   # CPU's per Task
+
+
+module load hpc-env/6.4
+module load Python/3.6.3-intel-2018a
+module load TensorFlow/1.13.1-foss-2017b-Python-3.6.3
+
+python3 /gss/work/dahl0071/thesis/phire2/out_postproc.py 
